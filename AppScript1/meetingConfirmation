@@ -1,0 +1,102 @@
+    function createConfirmationCard(meetUpData, caseDilemma = false) {
+    /*
+    Assuming this format
+    {
+            'request':{
+                "title": string,
+                "when": This week, Next week, This month, or Next month as a string,
+                "start_time_frame": datetime object,
+                "end_time_frame": datetime object,
+                "duration": int,
+                "preferred_starting_time": list of string from ['morning', 'noon', 'afternoon', 'evening'],
+                "participants":list of emails (strings),
+                },
+            'available_slots': all available slots for the original request, formatted as a list of datatime objects,
+            'duration reduced': {
+                    'new duration': new duration in minutes,
+                    'available_slots': all available slots with the new duration, formatted as datatime objects
+                },
+            'participants reduced': {
+                    'without': all participants that were removed from the original request,formatted as a list of emails (strings)
+                    'new participants': new participants, formatted as a list of emails (strings),
+                    'available_slots': all available slots with the new participants, formatted as a list of datatime objects
+                },
+            'timeframe expanded': {
+                    'new timeframe': new timeframe, as a string,
+                    'available_slots': all available slots with the new timeframe, formatted as a list of datatime objects
+                }
+        }
+    
+    */
+        //check
+        var calendar;
+        try {
+            // Attempt to get the default calendar
+            calendar = CalendarApp.getDefaultCalendar();
+        } catch (e) {
+            // Try getting the calendar by user's email as a fallback
+            var userEmail = Session.getActiveUser().getEmail();
+            calendar = CalendarApp.getCalendarById(userEmail);
+        }
+    
+        if (!calendar) {
+            throw new Error('Unable to access calendar.');
+        }
+        var userTimeZone = calendar.getTimeZone();
+        var availableSlots = meetUpData.available_slots;
+        var dateDict = dateInUserTimeZone(availableSlots[0],userTimeZone);
+        var title = meetUpData.request.title;
+        /*
+        var when = meetUpData.request.when;
+        var duration = meetUpData.request.duration;
+        var preferredStartingTime = meetUpData.request.preferred_starting_time;
+        var participants = meetUpData.request.participants;
+        */
+        var date = dateDict.date;
+        var day = dateDict.day;
+        var start_hour = timeInUserTimeZone(meetUpData.request.start_time_frame,userTimeZone);
+        var end_hour = timeInUserTimeZone(meetUpData.request.end_time_frame,userTimeZone);
+        
+
+        var updatedFinalDilemmaSection = CardService.newCardSection()
+          .addWidget(CardService.newTextParagraph()
+            .setText('<b>There Been Some Changes</b>'))
+          .addWidget(CardService.newKeyValue()
+            .setContent('I\'ve found time for the meeting !'))
+        /*
+        var titleText = '<b>Meeting Scheduled</b>';
+        if (nonLiva){
+          titleText = '<b>Invitation sent to non liva users';
+        }
+        */
+        var confirmationSection = CardService.newCardSection()
+          .addWidget(CardService.newTextParagraph()
+            .setText(titleText))
+          .addWidget(CardService.newKeyValue()
+            .setContent('Meeting Title: ' + title))
+          .addWidget(CardService.newKeyValue()
+            .setContent('Date: ' + date))
+          .addWidget(CardService.newKeyValue()
+            .setContent('Day: ' + day))
+          .addWidget(CardService.newKeyValue()
+            .setContent('Hour: ' + start_hour + ' - ' + end_hour));
+
+            /*
+          .addWidget(CardService.newKeyValue()
+            .setContent('Agenda: ' + agenda)
+            .setMultiline(true));
+            */
+
+        if (caseDilemma){
+          return CardService.newCardBuilder()
+            .addSection(updatedFinalDilemmaSection)
+            .addSection(confirmationSection)
+            .build();
+        } else {
+          return CardService.newCardBuilder()
+            .addSection(confirmationSection)
+            .build();
+        }
+      
+    }
+      
