@@ -9,6 +9,7 @@ import pandas as pd
 import scheduleRequest as sr
 from oAuthAPI import get_flow, credentials_to_dict
 import google_auth_oauthlib.flow
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 CLIENT_SECRETS_FILE = "credentialsWEB.json"
 SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events']
@@ -17,14 +18,11 @@ API_VERSION = 'v3'
 CALLBACK_URL = "https://meetup-654cf9211efd.herokuapp.com/callback"
 
 
+
 app = Flask(__name__)
 # Build random secret key
 app.secret_key = os.urandom(24)
-
-@app.before_request
-def before_request():
-    if request.headers.get('X-Forwarded-Proto', 'http') == 'http':
-        return redirect(request.url.replace('http://', 'https://'))
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 @app.route('/preferences', methods=['GET', 'POST'])
 def availability():
