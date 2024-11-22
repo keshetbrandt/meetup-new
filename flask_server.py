@@ -1,13 +1,13 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 import os
-import Backend1.user as user
+import user
 import json
 from datetime import timedelta, datetime
-from Backend1.main_flow import full_flow, schedule_meeting, data_to_event, update_result_by_dilemma
+from main_flow import full_flow, schedule_meeting, data_to_event, update_result_by_dilemma
 import mongoDB_API
 import pandas as pd
-import Backend1.scheduleRequest as sr
-from Backend1.oAuthAPI import get_flow, credentials_to_dict
+import scheduleRequest as sr
+from oAuthAPI import get_flow, credentials_to_dict
 import google_auth_oauthlib.flow
 
 CLIENT_SECRETS_FILE = "credentialsWEB.json"
