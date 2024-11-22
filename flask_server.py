@@ -19,7 +19,12 @@ CALLBACK_URL = "https://meetup-654cf9211efd.herokuapp.com/callback"
 
 app = Flask(__name__)
 # Build random secret key
-app.secret_key = os.urandom(24)    
+app.secret_key = os.urandom(24)
+
+@app.before_request
+def before_request():
+    if request.headers.get('X-Forwarded-Proto', 'http') == 'http':
+        return redirect(request.url.replace('http://', 'https://'))
 
 @app.route('/preferences', methods=['GET', 'POST'])
 def availability():
