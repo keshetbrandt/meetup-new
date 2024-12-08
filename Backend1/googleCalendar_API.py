@@ -12,6 +12,7 @@ import json
 #returns pandas DF with all users busy times
 def get_busy_times(users, start_time, end_time):
     busy_slots = []
+    print("entered_get_busy_times")
     creds = oAuthAPI.get_credentials(users)
     for i in range(len(creds)):
         print("getting busy times for user_email: ", creds[i][0])
@@ -109,6 +110,7 @@ def add_free_time_ahead_col(availability_df):
 
 # Function to get final availability considering multiple users ,their availability and their google calendar busy times
 def get_final_availability(users, start_time, end_time, common_availability):
+    print("in get_fina_availibily")
     busy_slots = get_busy_times(users, start_time, end_time)
     availability_df = map_availability_to_dates(start_time, end_time, common_availability)
     busy_df = generate_busy_time_slots(busy_slots)
