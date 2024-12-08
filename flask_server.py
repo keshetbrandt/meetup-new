@@ -9,6 +9,7 @@ import pandas as pd
 import scheduleRequest as sr
 from oAuthAPI import get_flow, credentials_to_dict
 import google_auth_oauthlib.flow
+from flask_talisman import Talisman
 
 CLIENT_SECRETS_FILE = "credentialsWEB.json"
 SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events']
@@ -16,8 +17,8 @@ API_SERVICE_NAME = 'calendar'
 API_VERSION = 'v3'
 CALLBACK_URL = "https://meetup-654cf9211efd.herokuapp.com/callback"
 
-
 app = Flask(__name__)
+Talisman(app, force_https=True)
 # Build random secret key
 app.secret_key = os.urandom(24)
 
