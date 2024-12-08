@@ -232,8 +232,13 @@ def callback():
 #     else:
 #         return render_template('signup.html')
     
-if __name__ == "__main__":
+# if __name__ == "__main__":
+#     port = int(os.environ.get("PORT", 5000))
+#     app.run(host="0.0.0.0", port=port, debug=True)
+    
+if _name_ == "_main_":
+    import os
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
-
+    # debug = os.environ.get("FLASK_DEBUG", "0") == "1"  # Enable debug only if explicitly set
+    # app.run(host="0.0.0.0", port=port, debug=debug)  # For local development only
 
