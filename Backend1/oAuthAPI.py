@@ -61,5 +61,5 @@ def get_service(credentials):
         API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
 def refresh_cred(credentials):
-    print("I'm here in refresh credentials " + credentials)
+    print("I'm here in refresh credentials " + credentials_to_dict(credentials))
     return credentials.refresh(Request())
