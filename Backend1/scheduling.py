@@ -12,6 +12,7 @@ def find_meeting_slot(request):
     meeting_duration = request.duration
     preferred_times = request.prefferd_starting_time
     common_availabilities = user.get_common_availability(request.participants) #only by users chosen availability
+    print("finished common_availabilites")
     availabilities = get_final_availability(request.participants, request.start_time_frame, request.end_time_frame, common_availabilities)#with calendar limitations
     availabilities = availabilities[availabilities['free_time_ahead'] >= meeting_duration] #remove the no enough time slots
     print("Start range: ", start_range.strftime('%A'), start_range, "  and end range: ", end_range.strftime('%A'), end_range)
