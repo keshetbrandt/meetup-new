@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 import os
-import user
+from Backend1 import user
 import json
 from datetime import timedelta, datetime
 from main_flow import full_flow, schedule_meeting, data_to_event, update_result_by_dilemma
