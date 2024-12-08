@@ -38,7 +38,9 @@ from scheduleRequest import set_start_time, set_end_time
 #         }
 
 def full_flow(request):
+    print("Im in full flow")
     available_slots_for_request = find_meeting_slot(request)
+    print("I finished available_slots_for_request")
     data_dic = {
             'request': request.to_dict(),
             'message' : '',
