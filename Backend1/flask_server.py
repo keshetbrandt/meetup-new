@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 import os
+import sys
+sys.path.append(os.path.abspath(os.path.dirname(_file_)))
 import user
 import json
 from datetime import timedelta, datetime
