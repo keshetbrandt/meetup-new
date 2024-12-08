@@ -9,6 +9,7 @@ import pandas as pd
 import scheduleRequest as sr
 from oAuthAPI import get_flow, credentials_to_dict
 import google_auth_oauthlib.flow
+from flask_talisman import Talisman
 
 CLIENT_SECRETS_FILE = "credentialsWEB.json"
 SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events']
@@ -18,6 +19,8 @@ CALLBACK_URL = "https://meetup-654cf9211efd.herokuapp.com/callback"
 
 
 app = Flask(__name__)
+Talisman(app, force_https=True)
+
 # Build random secret key
 app.secret_key = os.urandom(24)    
 
@@ -232,8 +235,11 @@ def callback():
 #     else:
 #         return render_template('signup.html')
     
-if __name__ == "__main__":
+# if __name__ == "__main__":
+#     port = int(os.environ.get("PORT", 5000))
+#     app.run(host="0.0.0.0", port=port, debug=True)
+if _name_ == "_main_":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
-
+    # debug = os.environ.get("FLASK_DEBUG", "0") == "1"  # Enable debug only if explicitly set
+    # app.run(host="0.0.0.0", port=port, debug=debug)  # For local development only
 
