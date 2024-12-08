@@ -238,8 +238,8 @@ def callback():
 # if __name__ == "__main__":
 #     port = int(os.environ.get("PORT", 5000))
 #     app.run(host="0.0.0.0", port=port, debug=True)
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+# if __name__ == "__main__":
+    # port = int(os.environ.get("PORT", 5000))
     # debug = os.environ.get("FLASK_DEBUG", "0") == "1"  # Enable debug only if explicitly set
     # app.run(host="0.0.0.0", port=port, debug=debug)  # For local development only
 
